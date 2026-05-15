@@ -8,7 +8,7 @@ on :
 
 
 jobs: 
-  test:
+  back-end:
     runs-on: ubuntu-latest
 
 
@@ -16,5 +16,55 @@ jobs:
       - name: Cloner le code 
         uses: actions/checkout@v4
 
-      - name: Dire bonjour
-        run: echo "Hello CI"      
+      - name: Installer PHP 8.4
+        uses : shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, pdo_mysql, bcmath, gd, zip, exif, pcntl
+
+      - name: Installer les dépendances Composer
+        working-directory: back-end
+        run: composer install --no-interaction --no-scripts --optimize-autoloader
+
+      - name : Copier le fichier .env 
+        working-directory: back-end
+        run: cp .env.example .env
+
+
+      - name: Générer la clé d'application
+        working-directory: back-end
+        run: php artisan key:generate
+
+
+      - name: Lancer les test
+        working-directory: back-end
+        run : php artisan test
+
+  front-end:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cloner le code
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Installer les dépendances npm
+        working-directory : front-end
+        run: npm ci   
+
+      - name: Lancer le linter
+        working-directory: front-end
+        run: npm run lint
+
+      - name: Vérifier le build
+        working-directory: front-end
+        run: npm run build  
+        
+        
+
+
+

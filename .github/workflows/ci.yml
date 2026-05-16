@@ -22,6 +22,12 @@ jobs:
           php-version: '8.4'
           extensions: mbstring, pdo_mysql, bcmath, gd, zip, exif, pcntl
 
+      - name: Mettre en cache les dépendances Composer 
+        uses: actions/cache@v4
+        with:
+          path: back-end/vendor
+          key: composer-${{ hashFiles('back-end/composer.lock')}}    
+
       - name: Installer les dépendances Composer
         working-directory: back-end
         run: composer install --no-interaction --no-scripts --optimize-autoloader
@@ -30,15 +36,15 @@ jobs:
         working-directory: back-end
         run: cp .env.example .env
 
-
       - name: Générer la clé d'application
         working-directory: back-end
         run: php artisan key:generate
 
-
       - name: Lancer les test
         working-directory: back-end
         run : php artisan test
+
+      
 
   front-end:
     runs-on: ubuntu-latest
@@ -52,6 +58,13 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Mettre en cache les dépendances npm 
+        uses: actions/cache@v4
+        with:
+          path: front-end/node_modules
+          key: npm-${{ hashFiles('front-end/package-lock.json')}}
+
+
       - name: Installer les dépendances npm
         working-directory : front-end
         run: npm ci   
@@ -63,6 +76,9 @@ jobs:
       - name: Vérifier le build
         working-directory: front-end
         run: npm run build  
+
+      
+        
         
         
 

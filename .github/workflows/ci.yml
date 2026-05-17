@@ -77,24 +77,24 @@ jobs:
         working-directory: front-end
         run: npm run build  
 
-  deploy_frontend
-  needs: [back-end, front-end]
-  if: github.ref == 'refs/heads/master'
-  runs-on: ubuntu-latest
+  deploy_frontend:
+    needs: [back-end, front-end]
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
 
 
-  steps:
-    - name: Cloner le code 
-      uses: actions/checkout@v4
+    steps:
+      - name: Cloner le code 
+        uses: actions/checkout@v4
 
-    - name: Déployer sur le Vercel
-      uses: amondnet/vercel-action@v25
-      with: 
-        vercel-token: ${{ secrets.vercelToken }}
-        vercel-org-id: ${{ secrets.teamId}}   
-        vercel-project-id: ${{ secrets.projectId}}
-        working-directory: front-end 
-        vercel-args: '--prod'
+      - name: Déployer sur le Vercel
+        uses: amondnet/vercel-action@v25
+        with: 
+          vercel-token: ${{ secrets.VERCELTOKEN }}
+          vercel-org-id: ${{ secrets.TEAMID}}   
+          vercel-project-id: ${{ secrets.PROJECTID}}
+          working-directory: front-end 
+          vercel-args: '--prod'
       
 
 

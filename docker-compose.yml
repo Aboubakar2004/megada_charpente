@@ -29,7 +29,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: megada
-      MYSQL_USER: password
+      MYSQL_USER: user
     volumes:
       - mysql-data:/var/lib/mysql
     networks:

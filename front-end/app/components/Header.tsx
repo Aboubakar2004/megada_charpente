@@ -2,7 +2,7 @@ import Link from "next/link";
 
 function Header() {
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between  items-center align-middle px-20 pt-7 ">
       <div>
         <h1>Logo de l&apos;entrprise</h1>
       </div>

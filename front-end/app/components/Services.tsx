@@ -9,7 +9,7 @@ function Service() {
   return (
     <div className="px-20 py-20  bg-[#FDFBF7]">
       <div className="flex justify-between align-middle items-end mb-20  ">
-        <div>
+        <div className="grid gap-3">
           <h2 className="text-2xl font-medium">NOTRE SAVOIR-FAIRE</h2>
           <h1 className="text-5xl font-normal">Des solutions sur-mesure</h1>
         </div>

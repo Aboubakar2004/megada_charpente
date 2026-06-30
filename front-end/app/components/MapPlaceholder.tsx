@@ -26,6 +26,11 @@ function MapInner({
   onMapReady,
 }: any) {
   const map = useMap();
+  const tileLayerProps = {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+  } as any;
 
   useEffect(() => {
     if (onMapReady) onMapReady(map);
@@ -33,33 +38,34 @@ function MapInner({
 
   return (
     <>
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
+      <TileLayer {...tileLayerProps} />
 
       {locations.map((loc: Loc, idx: number) => (
         <CircleMarker
-          key={loc.id}
-          center={[loc.lat, loc.lng]}
-          radius={active === idx ? 10 : 6}
-          pathOptions={{
-            color: "#5D3A1A",
-            fillColor: "#F4EFE6",
-            fillOpacity: 1,
-            weight: 2,
-          }}
-          eventHandlers={{
-            mouseover: () => onMarkerHover(idx),
-            mouseout: () => onMarkerHover(null),
-            click: () => onMarkerClick(idx),
-          }}
+          {...({
+            key: loc.id,
+            center: [loc.lat, loc.lng],
+            radius: active === idx ? 10 : 6,
+            pathOptions: {
+              color: "#5D3A1A",
+              fillColor: "#F4EFE6",
+              fillOpacity: 1,
+              weight: 2,
+            },
+            eventHandlers: {
+              mouseover: () => onMarkerHover(idx),
+              mouseout: () => onMarkerHover(null),
+              click: () => onMarkerClick(idx),
+            },
+          } as any)}
         >
           <Tooltip
-            direction="top"
-            offset={[0, -8]}
-            opacity={1}
-            permanent={active === idx}
+            {...({
+              direction: "top",
+              offset: [0, -8],
+              opacity: 1,
+              permanent: active === idx,
+            } as any)}
           >
             {loc.label}
           </Tooltip>
@@ -83,10 +89,12 @@ export default function MapPlaceholder({
 
   return (
     <MapContainer
-      center={center}
-      zoom={9}
-      scrollWheelZoom={false}
-      style={{ height: "100%", width: "100%" }}
+      {...({
+        center,
+        zoom: 9,
+        scrollWheelZoom: false,
+        style: { height: "100%", width: "100%" },
+      } as any)}
     >
       <MapInner
         locations={locations}

@@ -17,10 +17,10 @@ function Header() {
           <Link href="/">Expertise</Link>
         </div>
         <div className="bg-transparent rounded-xl px-7 p-1 border-2 border-[#D2B48C]">
-          <Link href="/">Contact</Link>
+          <Link href="#contact">Contact</Link>
         </div>
         <div className="bg-[#5D3A1A] text-white  rounded-xl px-7 p-1">
-          <Link href="/">Devis gratuit</Link>
+          <Link href="#contact">Devis gratuit</Link>
         </div>
       </div>
     </div>
